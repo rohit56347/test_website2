@@ -1,0 +1,10 @@
+# Netlify configuration file for React/Vite single-product store
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirect rule for React Single Page Application client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

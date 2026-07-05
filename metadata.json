@@ -1,0 +1,6 @@
+{
+  "name": "Headphone Storefront & Admin",
+  "description": "Premium single-product e-commerce website for AeroSound X1 wireless headphones with customer storefront, checkout, and custom admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
