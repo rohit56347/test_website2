@@ -70,11 +70,11 @@ export default function AdminLogin({ isDemoMode, onBack, onLogin }: AdminLoginPr
             <div className="bg-[#050505] p-3 rounded-none border border-white/5 font-mono text-xs space-y-1.5 text-slate-300">
               <div className="flex justify-between">
                 <span className="text-[#E0D8D0]/40 uppercase tracking-widest text-[9px]">Email:</span>
-                <span className="text-[#D4AF37] font-semibold select-all">admin@example.com</span>
+                <span className="text-[#D4AF37] font-semibold select-all">admin27@gmail.com</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#E0D8D0]/40 uppercase tracking-widest text-[9px]">Password:</span>
-                <span className="text-[#D4AF37] font-semibold select-all">admin123</span>
+                <span className="text-[#D4AF37] font-semibold select-all">admin2026</span>
               </div>
             </div>
             <div className="pt-2 border-t border-white/5 text-[11px] text-[#E0D8D0]/60 uppercase tracking-wide leading-relaxed">
