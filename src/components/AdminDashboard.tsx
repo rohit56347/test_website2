@@ -33,6 +33,7 @@ export default function AdminDashboard({ isDemoMode, onLogout, onGoToStorefront 
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Search & Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,13 +42,15 @@ export default function AdminDashboard({ isDemoMode, onLogout, onGoToStorefront 
   // Load Data
   const loadData = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const fetchedOrders = await storeService.getAdminOrders();
       const fetchedCustomers = await storeService.getAdminCustomers();
       setOrders(fetchedOrders);
       setCustomers(fetchedCustomers);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error loading admin data:', err);
+      setError(err?.message || 'Failed to sync with Supabase tables.');
     } finally {
       setIsLoading(false);
     }
@@ -306,6 +309,31 @@ export default function AdminDashboard({ isDemoMode, onLogout, onGoToStorefront 
               <div className="flex-1 flex flex-col items-center justify-center py-20 gap-3">
                 <Loader2 className="w-8 h-8 text-[#D4AF37] animate-spin" />
                 <span className="text-xs uppercase tracking-widest text-[#E0D8D0]/50">Syncing ledger records...</span>
+              </div>
+            ) : error ? (
+              <div className="flex-1 flex flex-col items-center justify-center py-12 px-6 max-w-2xl mx-auto text-center gap-6">
+                <div className="w-12 h-12 rounded bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 font-serif font-bold text-xl">!</div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-serif text-white tracking-wide uppercase">Database Setup Required</h3>
+                  <p className="text-[10px] text-[#E0D8D0]/60 leading-relaxed uppercase tracking-widest">
+                    Your Supabase keys are configured, but the database tables do not exist yet.
+                  </p>
+                </div>
+                <div className="w-full bg-white/5 border border-white/5 p-5 text-left space-y-3 font-mono text-[11px] text-[#E0D8D0]/80">
+                  <p className="text-[#D4AF37] uppercase tracking-wider text-[10px] font-sans font-bold">🛠️ Setup Instructions:</p>
+                  <ol className="list-decimal pl-4 space-y-1.5 leading-relaxed">
+                    <li>Open your <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="text-[#D4AF37] hover:underline">Supabase Dashboard</a> and go to your project.</li>
+                    <li>Navigate to the <span className="text-[#D4AF37]">SQL Editor</span> in the left sidebar.</li>
+                    <li>Open the <span className="text-[#D4AF37]">schema.sql</span> file at the root of this project, copy its entire contents, and paste it into the Supabase SQL editor.</li>
+                    <li>Click <span className="text-emerald-400 font-bold">Run</span> to execute the SQL. This will automatically create your <span className="text-white">products</span>, <span className="text-white">customers</span>, <span className="text-white">orders</span>, and <span className="text-white">admins</span> tables!</li>
+                  </ol>
+                </div>
+                <button
+                  onClick={loadData}
+                  className="px-6 py-2.5 bg-[#D4AF37] text-black text-xs font-bold uppercase tracking-widest hover:bg-white transition-all cursor-pointer"
+                >
+                  Retry Connection
+                </button>
               </div>
             ) : (
               <>

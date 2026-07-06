@@ -29,7 +29,7 @@ export default function App() {
       const loggedIn = await storeService.checkAdminSession();
       setIsAdminLoggedIn(loggedIn);
 
-      if (path === '/login') {
+      if (path === '/ops-hub') {
         if (loggedIn) {
           navigate('/admin');
         } else {
@@ -39,7 +39,7 @@ export default function App() {
         if (loggedIn) {
           setCurrentRoute('admin');
         } else {
-          navigate('/login');
+          navigate('/');
         }
       } else {
         // Fallback to storefront (checkout & confirmation are handled inline via CTA state)
@@ -91,7 +91,7 @@ export default function App() {
   const handleAdminLogout = async () => {
     await storeService.logoutAdmin();
     setIsAdminLoggedIn(false);
-    navigate('/login');
+    navigate('/');
   };
 
   // Checkout submission handler
