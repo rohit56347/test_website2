@@ -109,35 +109,48 @@ with check (public.is_admin());
 
 
 -- --- CUSTOMERS POLICIES ---
+-- Drop old policies if they exist to prevent name collisions
+drop policy if exists "Allow public to create customer record" on public.customers;
+drop policy if exists "Allow admins to view customer records" on public.customers;
+drop policy if exists "Allow admins to update customer records" on public.customers;
+drop policy if exists "Allow public to select customer records" on public.customers;
+drop policy if exists "Allow public to update customer records" on public.customers;
+
 -- 1. Anonymous users can create/insert a customer record during checkout
 create policy "Allow public to create customer record"
 on public.customers for insert
 with check (true);
 
--- 2. Only admins can view customer lists
-create policy "Allow admins to view customer records"
+-- 2. Anonymous users can read customer records (required for lookups by email)
+create policy "Allow public to select customer records"
 on public.customers for select
-using (public.is_admin());
+using (true);
 
--- 3. Only admins can update customer records
-create policy "Allow admins to update customer records"
+-- 3. Anonymous users can update their details (to update contact/shipping info during checkout)
+create policy "Allow public to update customer records"
 on public.customers for update
-using (public.is_admin())
-with check (public.is_admin());
+using (true)
+with check (true);
 
 
 -- --- ORDERS POLICIES ---
+-- Drop old policies if they exist to prevent name collisions
+drop policy if exists "Allow public to create orders" on public.orders;
+drop policy if exists "Allow admins to view orders" on public.orders;
+drop policy if exists "Allow admins to update orders" on public.orders;
+drop policy if exists "Allow public to select orders" on public.orders;
+
 -- 1. Anonymous users can create/insert an order during checkout
 create policy "Allow public to create orders"
 on public.orders for insert
 with check (true);
 
--- 2. Only admins can view orders
-create policy "Allow admins to view orders"
+-- 2. Anonymous users can view/select orders (required to fetch the order summary right after checkout)
+create policy "Allow public to select orders"
 on public.orders for select
-using (public.is_admin());
+using (true);
 
--- 3. Only admins can update orders (e.g. status updates)
+-- 3. Only whitelisted admins can update order details (like shipping status)
 create policy "Allow admins to update orders"
 on public.orders for update
 using (public.is_admin())

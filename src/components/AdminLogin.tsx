@@ -77,6 +77,9 @@ export default function AdminLogin({ isDemoMode, onBack, onLogin }: AdminLoginPr
                 <span className="text-[#D4AF37] font-semibold select-all">admin123</span>
               </div>
             </div>
+            <div className="pt-2 border-t border-white/5 text-[11px] text-[#E0D8D0]/60 uppercase tracking-wide leading-relaxed">
+              <span className="text-[#D4AF37] font-semibold">Deploying on Netlify?</span> Make sure to add <code className="text-white bg-white/5 px-1 py-0.5 font-mono">VITE_SUPABASE_URL</code> and <code className="text-white bg-white/5 px-1 py-0.5 font-mono">VITE_SUPABASE_ANON_KEY</code> to your Netlify Site Settings to connect your live site to Supabase!
+            </div>
           </div>
         )}
 
